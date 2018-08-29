@@ -27,7 +27,7 @@ module API::V1
       end
 
       post do
-      # curl -d '{"product":{"name":"car","description":"Volvo","price":"2500000", "quantity":"1"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
+      # curl -d '{"product":{"name":"cart","description":"woods","price":"500", "quantity":"1"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
         product = Product.create(params[:product])
         present product, with: API::Entities::Products
       end
