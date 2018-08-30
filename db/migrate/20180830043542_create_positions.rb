@@ -3,7 +3,6 @@ class CreatePositions < ActiveRecord::Migration[5.2]
     create_table :positions do |t|
       t.references :shopping_cart, foreign_key: true
       t.references :product, foreign_key: true
-      t.integer :quantity
 
       t.timestamps
     end

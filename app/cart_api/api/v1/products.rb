@@ -22,7 +22,6 @@ module API::V1
           requires :name
           requires :description
           requires :price
-          requires :quantity
         end
       end
 

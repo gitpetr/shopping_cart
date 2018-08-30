@@ -1,3 +1,4 @@
 class Product < ApplicationRecord
-  belongs_to :shopping_cart
+  has_many :positions
+  has_many :shopping_carts, through: :positions
 end
