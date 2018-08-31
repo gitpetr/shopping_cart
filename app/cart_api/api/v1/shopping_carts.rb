@@ -25,15 +25,15 @@ module API::V1
         end
       end
 
-      post do
       # curl -d '{"shopping_cart":{}}' 'http://localhost:3000/api/v1/shopping_carts' -H Content-Type:application/json -v
+      post do
         shopping_cart = ShoppingCart.create(params[:shopping_cart])
         present shopping_cart, with: API::Entities::ShoppingCarts
       end
 
       desc 'Update a shopping_cart'
+      # curl -d '{"shopping_cart":{}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
       patch ':id' do
-      # curl -d '{"shopping_cart":{}, "product": {"id":"2", "quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
         @shopping_cart = ShoppingCart.find(params[:id])
         @shopping_cart.add_product(params)
         present @shopping_cart, with: API::Entities::ShoppingCarts

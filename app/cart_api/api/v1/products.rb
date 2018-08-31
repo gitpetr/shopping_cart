@@ -3,6 +3,7 @@ module API::V1
     version 'v1', using: :path
     resource :products do
       desc 'Return list of products'
+      # /api/v1/products
       get do
         products = Product.all
         present products, with: API::Entities::Products
@@ -25,8 +26,8 @@ module API::V1
         end
       end
 
+      # curl -d '{"product":{"name":"car","description":"woods","price":"500000", "quantity":"1"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
       post do
-      # curl -d '{"product":{"name":"cart","description":"woods","price":"500", "quantity":"1"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
         product = Product.create(params[:product])
         present product, with: API::Entities::Products
       end
