@@ -19,24 +19,33 @@ module API::V1
       desc 'Create a shopping_cart.'
       params do
         requires :shopping_cart, type: Hash do
-          requires :product_id
+          requires :product_id, type: Integer
           requires :products
-          requires :positions
+          requires :positions, type: Integer, default: 1, values: (1..10).to_a
         end
       end
 
-      # curl -d '{"shopping_cart":{}}' 'http://localhost:3000/api/v1/shopping_carts' -H Content-Type:application/json -v
+      # curl -d '{"shopping_cart": {}}' 'http://localhost:3000/api/v1/shopping_carts' -H Content-Type:application/json -v
       post do
         shopping_cart = ShoppingCart.create(params[:shopping_cart])
         present shopping_cart, with: API::Entities::ShoppingCarts
       end
 
       desc 'Update a shopping_cart'
-      # curl -d '{"shopping_cart":{}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
+      # curl -d '{"shopping_cart": {}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
       patch ':id' do
         @shopping_cart = ShoppingCart.find(params[:id])
-        @shopping_cart.add_product(params)
-        present @shopping_cart, with: API::Entities::ShoppingCarts
+      begin
+        @errors = @shopping_cart.add_product(params)
+        @product = Product.find(params[:product][:id])
+      rescue ActiveRecord::RecordNotFound => e
+        return error!("#{e.message}")
+      end
+        if @errors.empty?
+          present @product, with: API::Entities::Product
+        else
+          error!("#{@errors}")
+        end
       end
 
       desc 'Delete a shopping_cart'

@@ -20,13 +20,13 @@ module API::V1
       desc 'Create a product.'
       params do
         requires :product, type: Hash do
-          requires :name
+          requires :name, type: String
           requires :description
-          requires :price
+          requires :price, type: BigDecimal
         end
       end
 
-      # curl -d '{"product":{"name":"car","description":"woods","price":"500000", "quantity":"1"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
+      # curl -d '{"product":{"name":"car","description":"woods","price":"500000"}}' 'http://localhost:3000/api/v1/products' -H Content-Type:application/json -v
       post do
         product = Product.create(params[:product])
         present product, with: API::Entities::Products
