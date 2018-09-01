@@ -35,20 +35,19 @@ module API::V1
       # curl -d '{"shopping_cart": {}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
       patch ':id' do
         @shopping_cart = ShoppingCart.find(params[:id])
-      begin
         @errors = @shopping_cart.add_product(params)
         @product = Product.find(params[:product][:id])
-      rescue ActiveRecord::RecordNotFound => e
-        return error!("#{e.message}")
-      end
         if @errors.empty?
           present @product, with: API::Entities::Product
         else
           error!("#{@errors}")
         end
+      rescue ActiveRecord::RecordNotFound => e
+        error!("#{e.message}")
       end
 
       desc 'Delete a shopping_cart'
+      # curl -d '{"shopping_cart":{}, "product": {"id":"7"}, "positions": {"quantity":"1"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X DELETE -H Content-Type:application/json -v
       delete ':id' do
         shopping_cart = ShoppingCart.find(params[:id])
         shopping_cart.delete_product(params)
