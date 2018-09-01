@@ -15,7 +15,7 @@ AllCops:
     - 'config/environments/*.rb'
     - 'db/**/*'
     - 'node_modules/**/*'
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   DisplayCopNames: true
 
 Metrics/LineLength:

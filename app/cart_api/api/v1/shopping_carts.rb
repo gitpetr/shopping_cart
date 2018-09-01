@@ -51,8 +51,10 @@ module API::V1
       desc 'Delete a shopping_cart'
       delete ':id' do
         shopping_cart = ShoppingCart.find(params[:id])
-        shopping_cart.destroy
-        present shopping_carts, with: API::Entities::ShoppingCarts
+        shopping_cart.delete_product(params)
+        present shopping_cart, with: API::Entities::ShoppingCarts
+      rescue ActiveRecord::RecordNotFound => e
+        error!("#{e.message}")
       end
     end
   end
