@@ -31,10 +31,9 @@ class ShoppingCart < ApplicationRecord
       else
         positions.save
       end
-
+      nil
     else
-      "Такого товара в Вашей корзине нет"
+      'Такого товара в Вашей корзине нет'
     end
   end
 end
-

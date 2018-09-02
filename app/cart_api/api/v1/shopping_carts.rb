@@ -4,7 +4,7 @@ module API::V1
     resource :shopping_carts do
       desc 'Return list of shopping_carts'
       get do
-        shopping_carts = ShoppingCart.all    
+        shopping_carts = ShoppingCart.all
         present shopping_carts, with: API::Entities::ShoppingCarts
       end
 
@@ -50,8 +50,12 @@ module API::V1
       # curl -d '{"shopping_cart":{}, "product": {"id":"7"}, "positions": {"quantity":"1"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X DELETE -H Content-Type:application/json -v
       delete ':id' do
         shopping_cart = ShoppingCart.find(params[:id])
-        shopping_cart.delete_product(params)
-        present shopping_cart, with: API::Entities::ShoppingCarts
+        proderr = shopping_cart.delete_product(params)
+        if proderr
+          error!("#{proderr}")
+        else
+          # present shopping_cart, with: API::Entities::ShoppingCarts
+        end
       rescue ActiveRecord::RecordNotFound => e
         error!("#{e.message}")
       end

@@ -33,8 +33,8 @@ module API::V1
       end
 
       desc 'Update a product'
-      patch ':id' do 
-      #curl -d '{"product":{"name":"pizza","description":"organic product","price":"250", "quantity":"4"}}' -X PATCH 'http://localhost:3000/api/v1/products/4' -H Content-Type:application/json -v
+      patch ':id' do
+        # curl -d '{"product":{"name":"pizza","description":"organic product","price":"250", "quantity":"4"}}' -X PATCH 'http://localhost:3000/api/v1/products/4' -H Content-Type:application/json -v
         product = Product.find(params[:id])
         product.update(params[:product])
         present product, with: API::Entities::Product
