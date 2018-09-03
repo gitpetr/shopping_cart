@@ -18,8 +18,7 @@ module API::V1
 
       desc 'Create a shopping_cart.'
       params do
-        requires :shopping_cart, type: Hash do
-        end
+        requires :shopping_cart, type: Hash
       end
 
       # curl -d '{"shopping_cart": {}}' 'http://localhost:3000/api/v1/shopping_carts' -H Content-Type:application/json -v
@@ -53,7 +52,7 @@ module API::V1
         error!("#{e.message}")
       end
 
-      desc 'Delete a shopping_cart'
+      desc 'Delete a product from shopping_cart'
       # curl -d '{"shopping_cart":{}, "product": {"id":"7"}, "positions": {"quantity":"1"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X DELETE -H Content-Type:application/json -v
       delete ':id' do
         shopping_cart = ShoppingCart.find(params[:id])

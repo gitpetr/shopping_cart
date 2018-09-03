@@ -14,6 +14,8 @@ module API::V1
         get do
           product = Product.find(params[:id])
           present product, with: API::Entities::Products
+        rescue ActiveRecord::RecordNotFound => e
+          error!("#{e.message}")
         end
       end
 
@@ -38,6 +40,8 @@ module API::V1
         product = Product.find(params[:id])
         product.update(params[:product])
         present product, with: API::Entities::Products
+      rescue ActiveRecord::RecordNotFound => e
+        error!("#{e.message}")
       end
 
       desc 'Delete a product'
