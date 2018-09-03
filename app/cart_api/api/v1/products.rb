@@ -34,10 +34,10 @@ module API::V1
 
       desc 'Update a product'
       patch ':id' do
-        # curl -d '{"product":{"name":"pizza","description":"organic product","price":"250", "quantity":"4"}}' -X PATCH 'http://localhost:3000/api/v1/products/4' -H Content-Type:application/json -v
+        # curl -d '{"product":{"name":"table","description":"organic product","price":"25000"}}' -X PATCH 'http://localhost:3000/api/v1/products/11' -H Content-Type:application/json -v
         product = Product.find(params[:id])
         product.update(params[:product])
-        present product, with: API::Entities::Product
+        present product, with: API::Entities::Products
       end
 
       desc 'Delete a product'
@@ -45,7 +45,7 @@ module API::V1
       delete ':id' do
         product = Product.find(params[:id])
         product.destroy
-        present products, with: API::Entities::Product
+        present "#{product.name} удален"
       end
     end
   end
