@@ -46,6 +46,8 @@ module API::V1
         product = Product.find(params[:id])
         product.destroy
         present "#{product.name} удален"
+      rescue ActiveRecord::RecordNotFound => e
+        error!("#{e.message}")
       end
     end
   end
