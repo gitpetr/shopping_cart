@@ -19,9 +19,6 @@ module API::V1
       desc 'Create a shopping_cart.'
       params do
         requires :shopping_cart, type: Hash do
-          requires :product_id, type: Integer
-          requires :products
-          requires :positions, type: Integer, default: 1, values: (1..10).to_a
         end
       end
 
@@ -32,6 +29,16 @@ module API::V1
       end
 
       desc 'Update a shopping_cart'
+      params do
+        requires :shopping_cart, type: Hash
+        requires :product, type: Hash do
+          requires :id
+        end
+        requires :positions, type: Hash do
+          requires :quantity, type: Integer, default: 1, values: (1..10).to_a
+        end
+      end
+
       # curl -d '{"shopping_cart": {}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
       patch ':id' do
         @shopping_cart = ShoppingCart.find(params[:id])
