@@ -21,13 +21,12 @@ module API::V1
         requires :shopping_cart, type: Hash
       end
 
-      # curl -d '{"shopping_cart": {}}' 'http://localhost:3000/api/v1/shopping_carts' -H Content-Type:application/json -v
       post do
         shopping_cart = ShoppingCart.create(params[:shopping_cart])
         present shopping_cart, with: API::Entities::ShoppingCarts
       end
 
-      desc 'Update a shopping_cart'
+      desc 'Filling a shopping_cart'
       params do
         requires :shopping_cart, type: Hash
         requires :product, type: Hash do
@@ -38,7 +37,6 @@ module API::V1
         end
       end
 
-      # curl -d '{"shopping_cart": {}, "product": {"id":"2"}, "positions": {"quantity":"2"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X PATCH -H Content-Type:application/json -v
       patch ':id' do
         @shopping_cart = ShoppingCart.find(params[:id])
         @errors = @shopping_cart.add_product(params)
@@ -53,15 +51,10 @@ module API::V1
       end
 
       desc 'Delete a product from shopping_cart'
-      # curl -d '{"shopping_cart":{}, "product": {"id":"7"}, "positions": {"quantity":"1"}}' 'http://localhost:3000/api/v1/shopping_carts/2' -X DELETE -H Content-Type:application/json -v
       delete ':id' do
         shopping_cart = ShoppingCart.find(params[:id])
         proderr = shopping_cart.delete_product(params)
-        if proderr
-          error!("#{proderr}")
-        else
-          # present shopping_cart, with: API::Entities::ShoppingCarts
-        end
+        error!("#{proderr}") if proderr
       rescue ActiveRecord::RecordNotFound => e
         error!("#{e.message}")
       end

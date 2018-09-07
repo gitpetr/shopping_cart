@@ -5,7 +5,6 @@ module API
       expose :name
       expose :description
       expose :price
-      # expose :positions, using: API::Entities::Positions
     end
   end
 end
